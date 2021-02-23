@@ -237,7 +237,7 @@ for (let checkbox of activitiesCheckboxes) {
     checkbox.addEventListener('blur', (e) => e.target.parentElement.classList.remove('focus'));
 }
 
-// Real-time validation on required input fields of type text
+// Real-time validation on required input fields
 nameInput.addEventListener('change', () => validateTextInput(nameInput, nameRegex));
 emailInput.addEventListener('change', () => validateTextInput(emailInput, emailRegex));
 activitiesFieldset.addEventListener('change', validateActivities);
