@@ -10,7 +10,7 @@ Small project to showcase form validations with plain JavaScript.
 
 This form shows real-time validation on fields marked as required. Feedback is triggered by the ['change' event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event). 
 
-When validation is successful user feedback is displayed in the form of green checkmark.
+When validation is successful user feedback is displayed in the form of green checkmark icon.
 
 When validation fails user feedback is displayed in the form of red borders, a red '!' icon, and a conditional validation fail message.
 

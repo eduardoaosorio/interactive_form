@@ -1,58 +1,82 @@
 // ALL VARIABLE DECLARATIONS
 
-// form element
+// Form element
 const form = document.querySelector('form');
 
-// basic info fieldset input elements
+// Basic info fieldset input elements
 const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
 const otherJobRoleInput = document.querySelector('#other-job-role');
 
-// basic info fieldset select element
+// Basic info fieldset select element
 const jobRoleSelect = document.querySelector('#title');
 
-// t-shirt info fieldset select elements
+// T-shirt info fieldset select elements
 const designSelect = document.querySelector('#design');
 const colorSelect = document.querySelector('#color');
 
-// activities fielset
+// Activities fielset
 const activitiesFieldset = document.querySelector('#activities');
 
-// activities fielset nested elements
+// Activities fielset nested elements
 const activitiesCostParagraph = document.querySelector('#activities-cost');
 let totalCost = 0;
 const activitiesCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 
-// payment info fieldset payment options select element
+// Payment info fieldset payment options select element
 const paymentOptionSelect = document.querySelector('#payment');
 
-// payment info fieldset div elements
+// Payment info fieldset div elements
 const creditCardDiv = document.querySelector('#credit-card');
 const paypalDiv = document.querySelector('#paypal');
 const bitcoinDiv = document.querySelector('#bitcoin');
 
-// credit card div input elements
-const cardNumberInput = document.querySelector('#cc-num');
+// Credit card div input elements
+const creditCardNumInput = document.querySelector('#cc-num');
 const zipCodeInput = document.querySelector('#zip');
 const cvvInput = document.querySelector('#cvv');
 
 
+// REGEX USED FOR TEXT INPUT VALIDATION
+
+const nameRegex = /^[a-z]+ ?[a-z]* ?[a-z]*$/i;
+const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;
+const creditCardNumRegex = /^\d{13,16}$/;
+const cvvRegex = /^\d{3}$/;
+const zipCodeRegex = /^\d{5}$/;
+
+
 // VALIDATION RELATED FUNCTIONS
 
-function validateName() {
-    const isValidName = /^[a-z]+ ?[a-z]* ?[a-z]*$/i.test(nameInput.value);
-    if (isValidName) validationPass(nameInput);
-    else validationFail(nameInput);
-    return isValidName;
+/**
+ * Validates the value property of a supplied textInputElement with a supplied regular expression
+ *
+ * @param {object} textInputElement - HTMLElement, must be of input type="text"
+ * @param {object} regex - Regular expression to perform validation
+ */
+function validateTextInput(textInputElement, regex) {
+    const isValid = regex.test(textInputElement.value);
+    if (isValid) validationPass(textInputElement);
+    else validationFail(textInputElement);
+    return isValid;
 }
 
-function validateEmail() {
-    const isValidEmail = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
-    if (isValidEmail) validationPass(emailInput);
-    else validationFail(emailInput);
-    return isValidEmail;
+/**
+ *  Converts the value property of a supplied textInputElement to number type and then validates with a supplied regular expression
+ *
+ * @param {object} textInputElement - HTMLElement, must be of input type="text"
+ * @param {object} regex - Regular expression to perform validation
+ */
+function validateTextInputAsNumber(textInputElement, regex) {
+    const isValid = regex.test(+textInputElement.value);
+    if (isValid) validationPass(textInputElement);
+    else validationFail(textInputElement);
+    return isValid;
 }
 
+/**
+ *  Validates that at least 1 of the activities checkboxes is checked
+ */
 function validateActivities() {
     const validActivities = totalCost > 0;
     if (validActivities) validationPass(activitiesFieldset.children[1]);
@@ -60,33 +84,22 @@ function validateActivities() {
     return validActivities;
 }
 
-function validateCreditCardNum() {
-    const isValidCreditCardNum = /^\d{13,16}$/.test(+cardNumberInput.value);
-    if (isValidCreditCardNum) validationPass(cardNumberInput);
-    else validationFail(cardNumberInput);
-    return isValidCreditCardNum;
-}
-
-function validateCVV() {
-    const isValidCVV = /^\d{3}$/.test(+cvvInput.value);
-    if (isValidCVV) validationPass(cvvInput);
-    else validationFail(cvvInput);
-    return isValidCVV;
-}
-
-function validateZipCode() {
-    const isValidZipCode = /^\d{5}$/.test(+zipCodeInput.value);
-    if (isValidZipCode) validationPass(zipCodeInput);
-    else validationFail(zipCodeInput);
-    return isValidZipCode;
-}
-
+/**
+ *  Displays user feedback when validation passes, feedback is displayed in the form of green checkmark icon
+ *
+ * @param {object} element - HTMLElement
+ */
 function validationPass(element) {
     element.parentElement.classList.add('valid');
     element.parentElement.classList.remove('not-valid');
     element.parentElement.lastElementChild.style.display = 'none';
 }
-  
+ 
+/**
+ *  Displays user feedback when validation fails, feedback is displayed in the form of red borders, a red '!' icon, and a conditional validation fail message.
+ *
+ * @param {object} element - HTMLElement
+ */
 function validationFail(element) {
     element.parentElement.classList.add('not-valid');
     element.parentElement.classList.remove('valid');
@@ -120,22 +133,22 @@ const validationMsgObjects = [
 
 // START OF DOM MANIPULATION
 
-// set focus onto the name input elemente when page first loads
+// Set focus onto the name input elemente when page first loads
 nameInput.focus();
 
-// hide otherJobRoleInput when page loads
+// Hide otherJobRoleInput when page loads
 otherJobRoleInput.hidden = true;
 
-// event listener to hide/unhide otherJobRoleInput according to selected option's value
+// Event listener to hide/unhide otherJobRoleInput according to selected option's value
 jobRoleSelect.addEventListener('change', (e) => {
     if (e.target.value === 'other') otherJobRoleInput.hidden = false;
     else otherJobRoleInput.hidden = true;
 });
 
-// disable color select when page loads
+// Disable color select when page loads
 colorSelect.disabled = true;
 
-// enable colorSelect options to match designSelect option
+// Enable colorSelect options to match designSelect option
 designSelect.addEventListener('change', (e) => {
     colorSelect.disabled = false;
     const designOptionValue = e.target.value;
@@ -151,7 +164,7 @@ designSelect.addEventListener('change', (e) => {
     }
 });
 
-// update activitiesCostParagraph according to checked checkboxes and disable/enable checkboxes if schedule conflicts exist
+// Update activitiesCostParagraph according to checked checkboxes and disable/enable checkboxes if schedule conflicts exist
 activitiesFieldset.addEventListener('change', (e) => {
     const activityCost = +e.target.getAttribute('data-cost');
     const selectedActivitySchedule = e.target.nextElementSibling.nextElementSibling.textContent;
@@ -177,14 +190,14 @@ activitiesFieldset.addEventListener('change', (e) => {
     activitiesCostParagraph.innerHTML = `Total: $${totalCost}`;
 });
 
-// hide paypalDiv and bitcoinDiv when page loads
+// Hide paypalDiv and bitcoinDiv when page loads
 paypalDiv.hidden = true;
 bitcoinDiv.hidden = true;
 
-// select credit-card as a default option when page loads
+// Select credit-card as a default option when page loads
 paymentOptionSelect.children[1].selected = true;
 
-// update show/hide payment option divs according to selected option
+// Update show/hide payment option divs according to selected option
 paymentOptionSelect.addEventListener('change', (e) => {
     if (e.target.value === 'credit-card') {
         creditCardDiv.hidden = false;
@@ -201,29 +214,32 @@ paymentOptionSelect.addEventListener('change', (e) => {
     }
 });
 
-// event listener to perform validations on submit
+// Event listener to perform validations on submit
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    validateName() ? console.log('valid name'): console.log('invalid name');
-    validateEmail() ? console.log('valid email'): console.log('invalid email');
+
+    validateTextInput(nameInput, nameRegex) ? console.log('valid name'): console.log('invalid name');
+    validateTextInput(emailInput, emailRegex) ? console.log('valid email'): console.log('invalid email');
     validateActivities() ? console.log('ok activitis'): console.log('select at least 1 activity');
     
+    // Validate credit card info only if cerdit card is the selected payment method
     if (paymentOptionSelect.children[1].selected) {
-        validateCreditCardNum() ? console.log('ok cardnum'): console.log('invalid cardnum');
-        validateCVV() ? console.log('ok CVV'): console.log('invalid CVV');
-        validateZipCode() ? console.log('ok zip'): console.log('invalid zip');
+        validateTextInputAsNumber(creditCardNumInput, creditCardNumRegex) ? console.log('ok cardnum'): console.log('invalid cardnum');
+        validateTextInputAsNumber(cvvInput, cvvRegex) ? console.log('ok CVV'): console.log('invalid CVV');
+        validateTextInputAsNumber(zipCodeInput, zipCodeRegex) ? console.log('ok zip'): console.log('invalid zip');
     }
 });
 
-// add focus and blur event listeners on all checkboxes
+// Add focus and blur event listeners on all checkboxes
 for (let checkbox of activitiesCheckboxes) {
     checkbox.addEventListener('focus', (e) => e.target.parentElement.classList.add('focus'));
     checkbox.addEventListener('blur', (e) => e.target.parentElement.classList.remove('focus'));
 }
 
-// real-time validation on required input fields of type text
-nameInput.addEventListener('change', validateName);
-emailInput.addEventListener('change', validateEmail);
-cardNumberInput.addEventListener('change', validateCreditCardNum);
-zipCodeInput.addEventListener('change', validateZipCode);
-cvvInput.addEventListener('change', validateCVV);
+// Real-time validation on required input fields of type text
+nameInput.addEventListener('change', () => validateTextInput(nameInput, nameRegex));
+emailInput.addEventListener('change', () => validateTextInput(emailInput, emailRegex));
+activitiesFieldset.addEventListener('change', validateActivities);
+creditCardNumInput.addEventListener('change', () => validateTextInputAsNumber(creditCardNumInput, creditCardNumRegex));
+zipCodeInput.addEventListener('change', () => validateTextInputAsNumber(zipCodeInput, zipCodeRegex));
+cvvInput.addEventListener('change', () => validateTextInputAsNumber(cvvInput, cvvRegex));
