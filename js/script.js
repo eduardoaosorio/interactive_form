@@ -219,17 +219,15 @@ paymentOptionSelect.addEventListener('change', (e) => {
 
 // Event listener to perform validations on submit
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    validateTextInput(nameInput, nameRegex) ? console.log('valid name'): console.log('invalid name');
-    validateTextInput(emailInput, emailRegex) ? console.log('valid email'): console.log('invalid email');
-    validateActivities() ? console.log('ok activitis'): console.log('select at least 1 activity');
+    if (!validateTextInput(nameInput, nameRegex)) e.preventDefault();
+    if (!validateTextInput(emailInput, emailRegex)) e.preventDefault();
+    if (!validateActivities()) e.preventDefault();
     
-    // Validate credit card info only if cerdit card is the selected payment method
+    // Validate credit card info only if credit card is the selected payment method
     if (paymentOptionSelect.children[1].selected) {
-        validateTextInputAsNumber(creditCardNumInput, creditCardNumRegex) ? console.log('ok cardnum'): console.log('invalid cardnum');
-        validateTextInputAsNumber(cvvInput, cvvRegex) ? console.log('ok CVV'): console.log('invalid CVV');
-        validateTextInputAsNumber(zipCodeInput, zipCodeRegex) ? console.log('ok zip'): console.log('invalid zip');
+        if (!validateTextInputAsNumber(creditCardNumInput, creditCardNumRegex)) e.preventDefault();
+        if (!validateTextInputAsNumber(cvvInput, cvvRegex)) e.preventDefault();
+        if (!validateTextInputAsNumber(zipCodeInput, zipCodeRegex)) e.preventDefault();
     }
 });
 
