@@ -53,6 +53,7 @@ const zipCodeRegex = /^\d{5}$/;
  *
  * @param {object} textInputElement - HTMLElement, must be of input type="text"
  * @param {object} regex - Regular expression to perform validation
+ * @return {boolean} The result of the validation, true if it passes, false if it fails
  */
 function validateTextInput(textInputElement, regex) {
     const isValid = regex.test(textInputElement.value);
@@ -66,6 +67,7 @@ function validateTextInput(textInputElement, regex) {
  *
  * @param {object} textInputElement - HTMLElement, must be of input type="text"
  * @param {object} regex - Regular expression to perform validation
+ * @return {boolean} The result of the validation, true if it passes, false if it fails
  */
 function validateTextInputAsNumber(textInputElement, regex) {
     const isValid = regex.test(+textInputElement.value);
@@ -76,6 +78,7 @@ function validateTextInputAsNumber(textInputElement, regex) {
 
 /**
  *  Validates that at least 1 of the activities checkboxes is checked
+ * @return {boolean} The result of the validation, true if it passes, false if it fails
  */
 function validateActivities() {
     const validActivities = totalCost > 0;
