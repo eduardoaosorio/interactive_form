@@ -4,7 +4,7 @@ Techdegree project 3
 
 ## Description
 
-Small project to showcase form validations with plain JavaScript.
+Small project to showcase form interactivity and validations with plain JavaScript.
 
 ### About real-time validation user feedback
 
