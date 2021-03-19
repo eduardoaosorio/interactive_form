@@ -15,10 +15,10 @@ const jobRoleSelect = document.querySelector('#title');
 const designSelect = document.querySelector('#design');
 const colorSelect = document.querySelector('#color');
 
-// Activities fielset
+// Activities fieldset
 const activitiesFieldset = document.querySelector('#activities');
 
-// Activities fielset nested elements
+// Activities fieldset nested elements
 const activitiesCostParagraph = document.querySelector('#activities-cost');
 let totalCost = 0;
 const activitiesCheckboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -88,7 +88,7 @@ function validateActivities() {
 }
 
 /**
- *  Displays user feedback when validation passes, feedback is displayed in the form of green checkmark icon
+ *  Displays user feedback when validation passes, feedback is displayed in the form of green check-mark icon
  *
  * @param {object} element - HTMLElement
  */
@@ -136,13 +136,13 @@ const validationMsgObjects = [
 
 // START OF DOM MANIPULATION
 
-// Set focus onto the name input elemente when page first loads
+// Set focus onto the name input elements when page first loads
 nameInput.focus();
 
 // Hide otherJobRoleInput when page loads
 otherJobRoleInput.hidden = true;
 
-// Event listener to hide/unhide otherJobRoleInput according to selected option's value
+// Event listener to hide/show otherJobRoleInput according to selected option's value
 jobRoleSelect.addEventListener('change', (e) => {
     if (e.target.value === 'other') otherJobRoleInput.hidden = false;
     else otherJobRoleInput.hidden = true;
